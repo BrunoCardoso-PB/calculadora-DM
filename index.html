@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de PCJ - DM</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #667eea, #764ba2);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: #fff;
+    }
+    .container {
+      background-color: rgba(0, 0, 0, 0.75);
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      max-width: 500px;
+      width: 90%;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+    input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: none;
+      font-size: 1rem;
+    }
+    button {
+      width: 100%;
+      margin-top: 1.5rem;
+      padding: 12px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      background-color: #4fd1c5;
+      border: none;
+      color: #000;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background-color: #38b2ac;
+    }
+    .resultado {
+      margin-top: 2rem;
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 1rem;
+      border-radius: 10px;
+    }
+    .resultado p {
+      margin: 0.5rem 0;
+    }
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.5rem;
+      }
+      button {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Calculadora de PCJ - DM</h1>
+    <label for="valor">Valor Financiado (R$):</label>
+    <input type="number" id="valor" min="0" step="0.01">
+
+    <label for="meses">Número de Meses:</label>
+    <input type="number" id="meses" min="1" step="1">
+
+    <button onclick="calcularPrestacao()">Calcular</button>
+
+    <div class="resultado" id="resultado"></div>
+  </div>
+
+  <script>
+    function calcularPrestacao() {
+      const valor = parseFloat(document.getElementById('valor').value);
+      const meses = parseInt(document.getElementById('meses').value);
+      const juros = 4.99 / 100;
+
+      if (isNaN(valor) || isNaN(meses)) {
+        alert("Por favor, preencha todos os campos corretamente.");
+        return;
+      }
+
+      const fator = Math.pow(1 + juros, meses);
+      const prestacao = valor * ((fator * juros) / (fator - 1));
+      const totalPago = prestacao * meses;
+      const totalJuros = totalPago - valor;
+
+      document.getElementById('resultado').innerHTML = `
+        <p><strong>Valor da Prestação:</strong> R$ ${prestacao.toFixed(2)}</p>
+        <p><strong>Total Pago:</strong> R$ ${totalPago.toFixed(2)}</p>
+        <p><strong>Total de Juros:</strong> R$ ${totalJuros.toFixed(2)}</p>
+      `;
+    }
+  </script>
+</body>
+</html>
